@@ -11,12 +11,23 @@ public class App {
             Statement stmt = con.createStatement();
 
             // Execute query
-            ResultSet bookName = stmt.executeQuery("SELECT book_name FROM book_list;");
-            //ResultSet review = stmt.executeQuery("SELECT review FROM book_list;");
-            
-            while (bookName.next()) {
-                System.out.println("Book: " + bookName.getString("book_name")); 
-                        //+ "\nReview: " + review.getString("review") + "\n");
+            ResultSet bookList = stmt.executeQuery("SELECT * FROM book_list;"); 
+            //System.out.println(bookList.toString());
+
+            while (bookList.next()) {
+                String recommended;
+                if (bookList.getString("recommend?").equals("1")) {
+                    recommended = "This book is a good read and is recommended";
+                }
+                else {
+                    recommended = "This book is not recommended";
+                }
+                
+                System.out.println("Book Name: " + bookList.getString("book_name") + 
+                        "\nSeries: " + bookList.getString("series") + 
+                        "\nAuthor: " + bookList.getString("author") +
+                        "\nReview: " + bookList.getString("review") + 
+                        "\n" + recommended + "\n");
             }
 
             con.close();
